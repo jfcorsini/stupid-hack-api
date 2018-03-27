@@ -1,29 +1,10 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
-service: serverless-weight-for-it
-
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-# frameworkVersion: "=X.X.X"
+service: weight-for-it-api
 
 provider:
   name: aws
   runtime: nodejs6.10
-
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
+  stage: dev
+  region: eu-central-1
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -55,8 +36,11 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
+  express:
+    handler: handler.handle
+    events:
+      - http: 'ANY /'
+      - http: 'ANY {proxy+}'
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
