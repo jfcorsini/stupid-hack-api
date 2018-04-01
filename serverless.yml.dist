@@ -1,0 +1,17 @@
+service: weight-for-it-api
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: dev
+  region: eu-central-1
+
+functions:
+  express:
+    handler: handler.handle
+    events:
+      - http: 'ANY /'
+      - http: 'ANY {proxy+}'
+
+  environment:
+    MONGODB_ATLAS_CLUSTER_URI:
