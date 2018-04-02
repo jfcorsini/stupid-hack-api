@@ -26,10 +26,14 @@ const userSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
+  name: {
+    required: true,
+    type: String,
+  },
 });
 
 // Authentication based on https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function cb(next) {
   const user = this;
 
   if (user.isModified('password')) return next();
