@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const validator = require('validator');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 
 const SALT_WORK_FACTOR = 10;
@@ -38,15 +38,11 @@ userSchema.pre('save', function cb(next) {
 
   if (!user.isModified('password')) return next();
 
-  return bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
+  return bcrypt.hash(user.password, SALT_WORK_FACTOR, (err, hash) => {
     if (err) return next(err);
 
-    return bcrypt.hash(user.password, salt, (hashErr, hash) => {
-      if (hashErr) return next(hashErr);
-
-      user.password = hash;
-      return next();
-    });
+    user.password = hash;
+    return next();
   });
 });
 
