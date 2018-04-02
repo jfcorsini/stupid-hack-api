@@ -3,8 +3,11 @@ service: weight-for-it-api
 provider:
   name: aws
   runtime: nodejs6.10
-  stage: dev
   region: eu-central-1
+  stage: dev
+  
+  environment:
+    MONGODB_CLUSTER_URI: ${env:MONGODB_CLUSTER_URI}
 
 functions:
   express:
@@ -13,5 +16,5 @@ functions:
       - http: 'ANY /'
       - http: 'ANY {proxy+}'
 
-  environment:
-    MONGODB_ATLAS_CLUSTER_URI:
+plugins:
+   - '@jimdo/serverless-dotenv'
