@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
+  measures: [{
+    type: String,
+    ref: 'Measure',
+  }],
 });
 
 // Authentication based on https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1

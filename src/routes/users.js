@@ -5,6 +5,7 @@ const validator = require('validator');
 
 const http = require('../lib/http');
 const db = require('../lib/db');
+const measureAction = require('./measure');
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.param('user', (req, res, next, uuid) => {
 
   return db.UserModel
     .findOne({ _id: uuid })
-    .select('-__v -password')
+    .select('-__v -password -measures')
     .then((user) => {
       if (user === null) {
         return next(new http.NotFoundHttpError('Requested user was not found'));
@@ -29,8 +30,22 @@ router.param('user', (req, res, next, uuid) => {
     });
 });
 
+router.get('/', (req, res, next) => {
+  db.UserModel
+    .find()
+    .select('-__v -password -measures')
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((error) => {
+      next(error);
+    });
+});
+
 router.get('/:user', (req, res) => {
   res.json(req.user);
 });
+
+router.use('/:user/measures', measureAction);
 
 module.exports = router;

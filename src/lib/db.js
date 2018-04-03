@@ -5,6 +5,7 @@ const bluebird = require('bluebird');
 
 const logger = require('./logger');
 const UserModel = require('../models/User');
+const MeasureModel = require('../models/Measure');
 
 const { connection } = mongoose;
 
@@ -33,4 +34,5 @@ module.exports = {
   connect,
   disconnect,
   UserModel,
+  MeasureModel,
 };
