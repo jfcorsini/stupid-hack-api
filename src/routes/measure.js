@@ -61,7 +61,6 @@ router.post('/', (req, res, next) => {
     })
     .catch((error) => {
       next(error);
-      console.log('Could not create measure because', error.message, error);
     });
 });
 
