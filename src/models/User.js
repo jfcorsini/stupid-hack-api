@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema({
   }],
 });
 
+userSchema.index({
+  email: 1,
+}, { unique: true });
+
 // Authentication based on https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1
 userSchema.pre('save', function cb(next) {
   const user = this;
@@ -50,16 +54,18 @@ userSchema.pre('save', function cb(next) {
   });
 });
 
-userSchema.methods.comparePassword = candidatePassword => new Promise((resolve, reject) => {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-    if (err) return reject(err);
+userSchema.methods.comparePassword = function comparePassword(candidatePassword) {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(candidatePassword, this.password)
+      .then((res) => {
+        if (res === false) {
+          return reject(new Error('Password does not match'));
+        }
 
-    if (isMatch === false) {
-      return reject(new Error('Password does not match'));
-    }
-
-    return resolve();
+        return resolve();
+      })
+      .catch(err => reject(err));
   });
-});
+};
 
 module.exports = mongoose.model('User', userSchema);
