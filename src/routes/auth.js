@@ -5,6 +5,7 @@ const express = require('express');
 const http = require('../lib/http');
 const db = require('../lib/db');
 const auth = require('../lib/auth');
+const _ = require('lodash');
 
 const router = express.Router();
 
@@ -19,7 +20,9 @@ router.post('/signup', (req, res, next) => {
     .then((user) => {
       res
         .status(201)
-        .json(user);
+        .json({
+          user: _.pick(user, ['_id', 'email', 'name']),
+        });
     })
     .catch((error) => {
       next(error);
@@ -41,7 +44,7 @@ router.post('/login', (req, res, next) => {
           res.json({
             token: auth.createJWTToken({
               session: {
-                user,
+                user: _.pick(user, ['_id', 'email', 'name']),
               },
             }),
           });
