@@ -6,8 +6,11 @@ const validator = require('validator');
 const http = require('../lib/http');
 const db = require('../lib/db');
 const measureAction = require('./measure');
+const jwtMiddleware = require('./../middleware/jwt_auth');
 
 const router = express.Router();
+
+router.use(jwtMiddleware);
 
 router.param('user', (req, res, next, uuid) => {
   if (validator.isUUID(uuid) === false) {
