@@ -10,7 +10,7 @@ const _ = require('lodash');
 const router = express.Router();
 
 /*
- * The post method expects the body to contain email, password & name.
+ * The post method expects the body to contain username, password & name.
  */
 router.post('/signup', (req, res, next) => {
   const { body } = req;
@@ -21,7 +21,7 @@ router.post('/signup', (req, res, next) => {
       res
         .status(201)
         .json({
-          user: _.pick(user, ['_id', 'email', 'name']),
+          user: _.pick(user, ['_id', 'username', 'name']),
         });
     })
     .catch((error) => {
@@ -30,13 +30,13 @@ router.post('/signup', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
   db.UserModel
-    .findOne({ email })
+    .findOne({ username })
     .then((user) => {
       if (!user) {
-        return next(new http.NotFoundHttpError('Email not found.'));
+        return next(new http.NotFoundHttpError('Username not found.'));
       }
 
       return user.comparePassword(password)
@@ -44,7 +44,7 @@ router.post('/login', (req, res, next) => {
           res.json({
             token: auth.createJWTToken({
               session: {
-                user: _.pick(user, ['_id', 'email', 'name']),
+                user: _.pick(user, ['_id', 'username', 'name']),
               },
             }),
           });

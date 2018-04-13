@@ -1,7 +1,6 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 
@@ -12,14 +11,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: uuid.v4,
   },
-  email: {
+  username: {
     required: true,
     type: String,
-    validate: {
-      validator(email) {
-        return validator.isEmail(email);
-      },
-    },
     index: { unique: true },
   },
   password: {
@@ -30,17 +24,16 @@ const userSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
-  measures: [{
+  tree: {
     type: String,
-    ref: 'Measure',
-  }],
+    ref: 'Tree',
+  },
 });
 
 userSchema.index({
-  email: 1,
+  username: 1,
 }, { unique: true });
 
-// Authentication based on https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1
 userSchema.pre('save', function cb(next) {
   const user = this;
 

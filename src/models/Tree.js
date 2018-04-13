@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const uuid = require('uuid');
 
-const measureSchema = new mongoose.Schema({
+const treeSchema = new mongoose.Schema({
   _id: {
     type: String,
     default: uuid.v4,
@@ -12,14 +12,10 @@ const measureSchema = new mongoose.Schema({
     type: String,
     ref: 'User',
   },
-  weight: {
-    required: true,
-    type: Number,
-  },
   created_at: {
-    required: true,
     type: Date,
+    default: Date.now,
   },
 });
 
-module.exports = mongoose.model('Measure', measureSchema);
+module.exports = mongoose.model('Tree', treeSchema);

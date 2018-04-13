@@ -5,7 +5,7 @@ const bluebird = require('bluebird');
 
 const logger = require('./logger');
 const UserModel = require('../models/User');
-const MeasureModel = require('../models/Measure');
+const TreeModel = require('../models/Tree');
 
 const { connection } = mongoose;
 
@@ -20,7 +20,7 @@ connection.on('disconnected', () => {
 
 const connect = () => {
   if (connection.readyState === 0) {
-    return mongoose.connect(process.env.MONGODB_CLUSTER_URI);
+    mongoose.connect(process.env.MONGODB_CLUSTER_URI);
   }
 };
 
@@ -34,5 +34,5 @@ module.exports = {
   connect,
   disconnect,
   UserModel,
-  MeasureModel,
+  TreeModel,
 };

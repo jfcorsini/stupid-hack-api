@@ -8,7 +8,6 @@ const awsServerlessExpressMiddleware = require('aws-serverless-express/middlewar
 const db = require('./lib/db');
 
 const jsonerror = require('./middleware/jsonerror');
-const usersActions = require('./routes/users');
 const authActions = require('./routes/auth');
 
 const app = express();
@@ -27,7 +26,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/users', usersActions);
 app.use('/auth', authActions);
 
 // Apply middlewares
