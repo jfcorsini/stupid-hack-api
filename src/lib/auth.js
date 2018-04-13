@@ -4,9 +4,8 @@ const jwt = require('jsonwebtoken');
 
 const createJWTToken = (settings) => {
   const session = settings.session || {};
-  const expiresIn = settings.expiresIn || 3600;
 
-  return jwt.sign({ session }, process.env.JWT_SECRET, { expiresIn });
+  return jwt.sign({ session }, process.env.JWT_SECRET);
 };
 
 const verifyJWTToken = token => new Promise((resolve, reject) => {
