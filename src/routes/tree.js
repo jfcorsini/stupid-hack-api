@@ -63,11 +63,12 @@ router.post('/update', (req, res, next) => {
       if (tree === null) {
         next(new http.NotFoundHttpError('You do not have a have tree'));
       }
-      console.log('THE NOW INSIDE THE MODEL', now);
+
+      if (tree.dead !== null) {
+        next(new http.NotFoundHttpError('The tree is dead. You cannot do anything'));
+      }
 
       const type = types.getByKind(tree.kind);
-
-      console.log('PLANTED AT', tree.planted_at, 'get time', (new Date(tree.planted_at)).getTime());
 
       const timeDiff = Math.abs(now.getTime() - (new Date(tree.planted_at)).getTime());
       const realAge = Math.ceil(timeDiff / (1000 * 3600 * 24));
