@@ -12,9 +12,21 @@ const treeSchema = new mongoose.Schema({
     type: String,
     ref: 'User',
   },
-  created_at: {
+  planted_at: {
     type: Date,
     default: Date.now,
+  },
+  kind: {
+    type: Number,
+    required: true,
+  },
+  age: {
+    type: Number,
+    default: 0,
+  },
+  death: {
+    type: String,
+    default: null,
   },
 });
 
