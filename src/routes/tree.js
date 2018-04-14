@@ -80,6 +80,12 @@ router.post('/update', (req, res, next) => {
         case dbAge <= type.phases.two && realAge >= type.phases.two:
           tree.updatePhaseTwo(realAge, now);
           break;
+        case dbAge <= type.phases.three && realAge >= type.phases.three:
+          tree.updatePhaseThree(realAge, now);
+          break;
+        case dbAge <= type.phases.four && realAge >= type.phases.four:
+          tree.updatePhaseFour(realAge, now);
+          break;
         default:
           console.log('No phase transition. Continuing and updating...');
           tree.updateAge(realAge, now);

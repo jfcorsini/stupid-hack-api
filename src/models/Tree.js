@@ -74,13 +74,49 @@ treeSchema.methods.updatePhaseTwo = function updatePhaseTwo(age, time) {
   this.save();
 };
 
+// 5% of change of not growing
+treeSchema.methods.updatePhaseThree = function updatePhaseThree(age, time) {
+  const kindName = types.getNameByKind(this.kind);
+  const chance = Math.random();
+
+  this.age = age;
+  this.image = `${kindName}_three_${getTimeOfDay(time)}`;
+  if (chance <= 0.05) {
+    this.death = 'It is dead, we are so sorry';
+    this.image = `${kindName}_dead_${getTimeOfDay(time)}`;
+  }
+
+  this.save();
+};
+
+// 1% of change of not growing
+treeSchema.methods.updatePhaseFour = function updatePhaseFour(age, time) {
+  const kindName = types.getNameByKind(this.kind);
+  const chance = Math.random();
+
+  this.age = age;
+  this.image = `${kindName}_four_${getTimeOfDay(time)}`;
+  if (chance <= 0.01) {
+    this.death = 'With great age comes great risks of death. It happened.';
+    this.image = `${kindName}_dead_${getTimeOfDay(time)}`;
+  }
+
+  this.save();
+};
+
+// 0.5% of change of not growing
 treeSchema.methods.updateAge = function updateAge(age, time) {
   const kindName = types.getNameByKind(this.kind);
   const level = types.getPhaseByAge(this.kind, age);
-  const period = getTimeOfDay(time);
+  const chance = Math.random();
 
   this.age = age;
-  this.image = `${kindName}_${level}_${period}`;
+  this.image = `${kindName}_${level}_${getTimeOfDay(time)}`;
+
+  if (chance <= 0.01) {
+    this.death = 'The martians came and destroyed your tree. Blame them!';
+    this.image = `${kindName}_dead_${getTimeOfDay(time)}`;
+  }
 
   this.save();
 };

@@ -53,10 +53,8 @@ const getPhaseByAge = (typeId, age) => {
       return 'two';
     case age < type.phases.four:
       return 'three';
-    case age < type.phases.five:
-      return 'four';
     default:
-      return 'five';
+      return 'four';
   }
 };
 
