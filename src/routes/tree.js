@@ -27,7 +27,7 @@ router.post('/create', (req, res, next) => {
         .create({
           kind: kind.id,
           user: userId,
-          image: `${kind.name}_zero_day.png`,
+          image: `${kind.name}_zero_day`,
         })
         .then((newTree) => {
           console.log('Tree created succesfully', newTree);
