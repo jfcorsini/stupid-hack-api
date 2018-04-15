@@ -5,6 +5,7 @@ const express = require('express');
 const http = require('../lib/http');
 const db = require('../lib/db');
 const types = require('../lib/types');
+const { getTimeOfDay } = require('../lib/helpers');
 const jwtMiddleware = require('../middleware/jwt_auth');
 
 const router = express.Router();
@@ -27,7 +28,7 @@ router.post('/create', (req, res, next) => {
         .create({
           kind: kind.id,
           user: userId,
-          image: `${kind.name}_zero_day`,
+          image: `${kind.name}_zero_${getTimeOfDay()}`,
         })
         .then((newTree) => {
           console.log('Tree created succesfully', newTree);

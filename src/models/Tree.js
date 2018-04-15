@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const uuid = require('uuid');
 const types = require('../lib/types');
 
+const { getTimeOfDay } = require('../lib/helpers');
+
 const treeSchema = new mongoose.Schema({
   _id: {
     type: String,
@@ -34,15 +36,6 @@ const treeSchema = new mongoose.Schema({
     default: null,
   },
 });
-
-const getTimeOfDay = (time) => {
-  console.log("TIME GET HOURSSS", time.getHours());
-  if (time.getHours() >= 6 && time.getHours() <= 18) {
-    return 'day';
-  }
-
-  return 'night';
-};
 
 // 25% of change of not growing
 treeSchema.methods.updatePhaseOne = function updatePhaseOne(age, time) {
